@@ -74,7 +74,12 @@ void MotorAllOFF(void){
 
 /********  Servo  ********/
 void ServoON(uint8_t servo, uint8_t angle){
-  if(servo == SERVO1){
+  if(servo == SERVO1){        //JRT用はピッチ固定にする．念のために上下限を設定
+    if(angle > 180){
+      angle = 180;
+    }else if(angle < 90){
+      angle = 90;
+    }
     servo1.write(angle);
   }else if(servo == SERVO2){
     servo2.write(angle);
