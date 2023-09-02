@@ -66,13 +66,13 @@
 #define RMmotorNUM 8
 
 /********  制御周期  ********/
-const uint8_t period = 1;    // 制御周期
+const uint8_t period = 10;    // 制御周期
 uint64_t StartTime = 0;       // 周期固定用　開始時間
 
 
 /********  コントローラ  ********/
 int RxData[4] = {};   //受信したデータをセミコロン毎に分割
-uint64_t GetTime_Controller = 0;  //タイムアウト用で使用予定
+uint64_t ControllerRxTime = 0;  //タイムアウト用で使用予定
 int16_t OperationEnable = 1;      //操作禁止orオートレフェリでON
 
 /********  オートレフェリ  ********/
@@ -84,6 +84,7 @@ int16_t OperationEnable = 1;      //操作禁止orオートレフェリでON
 uint8_t ShotSeq = 0;      //押して戻るときのシーケンスカウント用
 uint8_t RollerSeq = 0;    //えいやーでチャタリング＆連打対策してるけど，あとでちゃんとしたい
 uint8_t RollerOnOff = 0;  //ON/OFFの切り替え記憶用
+uint64_t RollerTime = 0; //チャタリング対策
 
 /********  RMモータ制御に関する構造体  ********/
 typedef struct RMmotor {

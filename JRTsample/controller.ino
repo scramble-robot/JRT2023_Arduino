@@ -31,5 +31,9 @@ void RxController(void){
     // Serial.print(", RxData[3]= ");
     // Serial.println(RxData[3]);
 
+  }else if((millis() - ControllerRxTime) > 300){  //タイムアウト
+    for (int i = 0; i < 4; i++){
+      RxData[i] = 0;
+    }
   }
 }
