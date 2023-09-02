@@ -14,6 +14,10 @@ Servo roller;
 #define SHOT MOTOR3
 #define PITCH SERVO1
 
+#define SW_ROLLER (RxData[3] & 0b001)
+#define SW_SHOT (RxData[3] & 0b010)
+#define SW_OTHER (RxData[3] & 0b100)
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -44,7 +48,7 @@ void loop() {
 
   RxController();
 
-  if((AF_Signal1 == 0) && ((RxData[3] & 0b001)== 0)){
+  if((AF_Signal1 == 0) && !SW_OTHER){
     OperationEnable = 1;
   }else{
     OperationEnable = 0;
@@ -65,6 +69,11 @@ void loop() {
     BuzzerOFF();
 
   }else{
+
+    RollerOnOff = 0;
+    motor[ROLLER].TxVel = 0;
+    ShotSeq = 0;
+
     MotorTxData.can_id  = 0x0200;
 
     for (int i = 0; i < 8; i++){

@@ -1,7 +1,7 @@
 void RxController(void){
 
   if(Serial1.available()){
-
+    ControllerRxTime = millis();
     String StrData = Serial1.readStringUntil('\n');
     delay(10);
     StrData.remove(0,1);
@@ -31,5 +31,9 @@ void RxController(void){
     // Serial.print(", RxData[3]= ");
     // Serial.println(RxData[3]);
 
+  }else if((millis() - ControllerRxTime) > 300){  //タイムアウト
+    for (int i = 0; i < 4; i++){
+      RxData[i] = 0;
+    }
   }
 }
