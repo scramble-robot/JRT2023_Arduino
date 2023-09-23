@@ -1,14 +1,14 @@
 #include <Servo.h>
 #include <string.h>
 #include <SPI.h>
-#include <mcp2515.h>
+#include "mcp2515.h"
 #include "define.h"
 
 
 MCP2515 mcp2515(20);
 Servo roller;
 
-
+#define BITRATE 115200
 #define WHEEL_L MOTOR1
 #define WHEEL_R MOTOR2
 #define SHOT MOTOR3
@@ -21,10 +21,10 @@ Servo roller;
 void setup() {
   // put your setup code here, to run once:
 
-  Serial.begin(115200);     //PC-Arduino用
-  Serial1.begin(115200);    //川村さんコントローラ用
-  Serial2.begin(115200);    //オートレフェリ用
-  // Serial3.begin(9600);      //予備
+  Serial.begin(BITRATE);     //PC-Arduino用
+  Serial1.begin(BITRATE);    //コントローラ用
+  Serial2.begin(BITRATE);    //オートレフェリ用
+  // Serial3.begin(9600);    //予備
 
   //can-bus 初期化
   mcp2515.reset();
