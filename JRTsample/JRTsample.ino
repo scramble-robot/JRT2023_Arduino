@@ -47,12 +47,12 @@ void loop() {
 
   RxController();
 
-  if((AF_Signal1 == 0) && !SW_OTHER){
+  if((AF_Signal1 == 0) && !SW_OTHER && !EMG_Stop && !ControllerTimeout){
     OperationEnable = 1;
   }else{
     OperationEnable = 0;
   }
-  
+
 
   SensorDebugLED();
 
@@ -85,11 +85,11 @@ void loop() {
     mcp2515.sendMessage(&MotorTxData);
 
     MotorAllOFF();
-
-    Buzzer1ON();
-
+    if (AF_Signal1 == 1){
+      Buzzer1ON();
+    }
   }
-  
+
 
   RMmotorTxData();
   RMmotorRxData();
@@ -97,6 +97,6 @@ void loop() {
   //周期固定用の待機(オーバしたら無視)
   while ((millis() - StartTime) < (period) ){
     delayMicroseconds(10);
-  }
+  }  
   
 }

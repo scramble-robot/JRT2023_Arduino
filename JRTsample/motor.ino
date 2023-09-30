@@ -23,9 +23,9 @@ void InitMotor(void){
   Dir[MOTOR8][0] = DIR8;
 
   //ここで正転逆転を変える
-  Dir[MOTOR1][1] = -1;   //左タイヤ
-  Dir[MOTOR2][1] = 1;  //右タイヤ
-  Dir[MOTOR3][1] = -1;  //射出
+  Dir[MOTOR1][1] = -1;  //左タイヤ
+  Dir[MOTOR2][1] = 1;   //右タイヤ
+  Dir[MOTOR3][1] = -1;  //装填
   Dir[MOTOR4][1] = 1;
   Dir[MOTOR5][1] = 1;
   Dir[MOTOR6][1] = 1;
