@@ -1,14 +1,14 @@
 #include <Servo.h>
 #include <string.h>
 #include <SPI.h>
-#include <mcp2515.h>
+#include "mcp2515.h"
 #include "define.h"
 
 
 MCP2515 mcp2515(20);
 Servo roller;
 
-
+#define BITRATE 115200
 #define WHEEL_L MOTOR1
 #define WHEEL_R MOTOR2
 #define SHOT MOTOR3
@@ -18,14 +18,13 @@ Servo roller;
 #define SW_SHOT (RxData[3] & 0b010)
 #define SW_OTHER (RxData[3] & 0b100)
 
-
 void setup() {
   // put your setup code here, to run once:
 
-  Serial.begin(115200);     //PC-Arduino用
-  Serial1.begin(115200);    //川村さんコントローラ用
-  Serial2.begin(115200);    //オートレフェリ用
-  // Serial3.begin(9600);      //予備
+  Serial.begin(BITRATE);     //PC-Arduino用
+  Serial1.begin(BITRATE);    //コントローラ用
+  Serial2.begin(BITRATE);    //オートレフェリ用
+  // Serial3.begin(9600);    //予備
 
   //can-bus 初期化
   mcp2515.reset();
@@ -48,12 +47,12 @@ void loop() {
 
   RxController();
 
-  if((AF_Signal1 == 0) && !SW_OTHER){
+  if((AF_Signal1 == 0) && !SW_OTHER && !EMG_Stop && !ControllerTimeout){
     OperationEnable = 1;
   }else{
     OperationEnable = 0;
   }
-  
+
 
   SensorDebugLED();
 
@@ -86,11 +85,11 @@ void loop() {
     mcp2515.sendMessage(&MotorTxData);
 
     MotorAllOFF();
-
-    Buzzer1ON();
-
+    if (AF_Signal1 == 1){
+      Buzzer1ON();
+    }
   }
-  
+
 
   RMmotorTxData();
   RMmotorRxData();
@@ -98,6 +97,6 @@ void loop() {
   //周期固定用の待機(オーバしたら無視)
   while ((millis() - StartTime) < (period) ){
     delayMicroseconds(10);
-  }
+  }  
   
 }

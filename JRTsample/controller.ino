@@ -1,4 +1,4 @@
-void RxController(void){
+bool RxController(void){
 
   if(Serial1.available()){
     ControllerRxTime = millis();
@@ -22,6 +22,7 @@ void RxController(void){
       
     }
 
+    return ControllerTimeout = false;
     // Serial.print("RxData[0]= ");
     // Serial.print(RxData[0]);
     // Serial.print(", RxData[1]= ");
@@ -35,5 +36,6 @@ void RxController(void){
     for (int i = 0; i < 4; i++){
       RxData[i] = 0;
     }
+    return ControllerTimeout = true;
   }
 }

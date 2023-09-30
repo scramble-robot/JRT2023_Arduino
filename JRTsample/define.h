@@ -69,22 +69,25 @@
 const uint8_t period = 10;    // 制御周期
 uint64_t StartTime = 0;       // 周期固定用　開始時間
 
+/********  非常停止  ********/
+#define EMG_Stop digitalRead(SW16)  //非常停止スイッチ
 
 /********  コントローラ  ********/
 int RxData[4] = {};   //受信したデータをセミコロン毎に分割
 uint64_t ControllerRxTime = 0;  //タイムアウト用で使用予定
-int16_t OperationEnable = 1;      //操作禁止orオートレフェリでON
+int16_t OperationEnable = 0;    //操作禁止orオートレフェリでON
+bool ControllerTimeout = true;  //タイムアウト検知戻り値
 
 /********  オートレフェリ  ********/
-#define AF_Signal1 digitalRead(AF1)  //押出の前側のリミット
+#define AF_Signal1 digitalRead(AF1)     //オートレフェリからの停止信号
 
 /********  射出  ********/
-#define SHOT_FRONT_SW digitalRead(SW1)  //押出の前側のリミット
-#define SHOT_BACK_SW digitalRead(SW2)   //押出の後側のリミット
-uint8_t ShotSeq = 0;      //押して戻るときのシーケンスカウント用
-uint8_t RollerSeq = 0;    //えいやーでチャタリング＆連打対策してるけど，あとでちゃんとしたい
-uint8_t RollerOnOff = 0;  //ON/OFFの切り替え記憶用
-uint64_t RollerTime = 0; //チャタリング対策
+#define SHOT_FRONT_SW digitalRead(SW1)  //装填の前進端リミットスイッチ
+#define SHOT_BACK_SW digitalRead(SW2)   //装填の後退端リミットスイッチ
+uint8_t ShotSeq = 0;      //装填動作シーケンスカウント用
+uint8_t RollerSeq = 0;    //チャタリング＆連打対策用，あとでちゃんとしたい
+uint8_t RollerOnOff = 0;  //ローラーON/OFFの切り替え記憶用
+uint64_t RollerTime = 0;  //ローラースイッチのチャタリング対策
 
 /********  RMモータ制御に関する構造体  ********/
 typedef struct RMmotor {
