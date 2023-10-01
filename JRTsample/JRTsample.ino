@@ -14,9 +14,9 @@ Servo roller;
 #define SHOT MOTOR3
 #define PITCH SERVO1
 
-#define SW_ROLLER (RxData[3] & 0b001)
-#define SW_SHOT (RxData[3] & 0b010)
-#define SW_OTHER (RxData[3] & 0b100)
+#define SW_ROLLER ((RxData[3] & 0b001) >> 0)
+#define SW_SHOT ((RxData[3] & 0b010) >> 1)
+#define SW_OTHER ((RxData[3] & 0b100) >> 2)
 
 void setup() {
   // put your setup code here, to run once:
